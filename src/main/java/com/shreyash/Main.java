@@ -66,7 +66,7 @@ public class Main {
         return "Customer data with id " + id + " is deleted!";
     }
 
-    @PutMapping("update/{customerId}")
+    @PutMapping("/update/{customerId}")
     public String updateCustomer(
             @PathVariable("customerId") Integer id,
             @RequestBody NewCustomeRequest newCustomeRequest
@@ -82,12 +82,49 @@ public class Main {
         return "Customer data with id " + id + " is updated!";
     }
 
+    @PatchMapping("updateName/{customerId}")
+    public String updateName(
+            @PathVariable("customerId") Integer id,
+            @RequestBody NewCustomeRequest newCustomeRequest
+    ) {
+        Optional<Customer> customerOp = customerRepository.findById(id);
+        Customer customer = customerOp.get();
+        customer.setName(newCustomeRequest.name);
+        customerRepository.save(customer);
+        return "Name Updated";
+    }
+
+   @PatchMapping("updateEmail/{customerId}")
+    public String updateEmail(
+            @PathVariable("customerId") Integer id,
+            @RequestBody NewCustomeRequest newCustomeRequest
+   ) {
+        Optional<Customer> customerOp = customerRepository.findById(id);
+        Customer customer = customerOp.get();
+        customer.setEmail(newCustomeRequest.email);
+        customerRepository.save(customer);
+        return "Email Updated";
+    }
+   @PatchMapping("updateAge/{customerId}")
+    public String updateAge(
+            @PathVariable("customerId") Integer id,
+            @RequestBody NewCustomeRequest newCustomeRequest
+   ) {
+        Optional<Customer> customerOp = customerRepository.findById(id);
+        Customer customer = customerOp.get();
+        customer.setAge(newCustomeRequest.age);
+        customerRepository.save(customer);
+        return "Age Updated";
+    }
+
     record NewCustomeRequest(
             String name,
             String email,
             Integer age
     ) {
     }
+
+
 
 }
 
